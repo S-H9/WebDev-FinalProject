@@ -18,211 +18,299 @@ if ($conn->connect_error) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to My Website</title>
     <style>
-        body {
-            font-family: 'Poppins', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1c1c2e, #3e3e58);
-            color: #f4f4f4;
-            line-height: 1.6;
-        }
+body {
+   font-family: 'Poppins', Arial, sans-serif;
+   margin: 0;
+   padding: 0;
+   background: linear-gradient(135deg, #1c1c2e, #3e3e58);
+   color: #f4f4f4;
+   line-height: 1.6;
+}
 
-        header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            background-color: #2e2e46;
-            padding: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
+header {
+   position: fixed;
+   width: 100%;
+   top: 0;
+   z-index: 1000;
+   background-color: #2e2e46;
+   padding: 10px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0.5rem;
-        }
+nav {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   max-width: 1200px;
+   margin: 0 auto;
+   padding: 0.5rem;
+}
 
-        nav img {
-            max-height: 60px;
-            border-radius: 50%;
-        }
+nav img {
+   max-height: 60px;
+   border-radius: 50%;
+}
 
-        .hero {
-            min-height: 100vh;
-            padding: 6rem 2rem 2rem 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
+.hero {
+   min-height: 100vh;
+   padding: 6rem 2rem 2rem 2rem;
+   display: flex;
+   flex-direction: column;
+   gap: 2rem;
+}
 
-        .hero-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+.hero-content {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: 2rem;
+   align-items: start;
+   max-width: 1400px;
+   margin: 0 auto;
+}
 
-        h1 {
-            font-size: 24px;
-            color: #ffcc00;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-            text-align: center;
-        }
+.hero-content h1,
+.hero-content > p,
+.hero-content .cta-button {
+   grid-column: 1 / -1;
+   text-align: center;
+}
 
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            padding: 1rem;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
+.left-content {
+   width: 100%;
+   max-width: 1400px;
+   margin: 0 auto;
+}
 
-        .image-container {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+.media-container {
+   display: grid;
+   grid-template-columns: 2fr 1fr;
+   gap: 2rem;
+   margin-bottom: 2rem;
+}
 
-        .image-container img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
+.empty-video {
+   width: 100%;
+   height: 800px;
+}
 
-        .expanded-row {
-            grid-column: 1 / -1;
-            display: none;
-            background: #2e2e46;
-            border-radius: 1rem;
-            padding: 2rem;
-            margin: 1rem 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
+.empty-video iframe {
+   width: 100%;
+   height: 100%;
+   border-radius: 10px;
+   background: #2e2e46;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
 
-        .expanded-row.active {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-        }
+.empty-image {
+   background: #2e2e46;
+   border-radius: 10px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+   overflow: hidden;
+   width: 70%;
+   justify-self: end;
+}
 
-        .description-panel {
-            background: #3e3e58;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            height: fit-content;
-        }
+.empty-image img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
 
-        .expanded-image {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
+.empty-text {
+   width: 80%;
+   margin: 0 auto;
+   text-align: center;
+   background: #2e2e46;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
 
-        .expanded-image img {
-            max-width: 100%;
-            height: auto;
-            max-height: 80vh;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
+h1 {
+   font-size: 24px;
+   color: #ffcc00;
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+   margin-bottom: 20px;
+   text-align: center;
+}
 
-        .cta-button {
-            display: inline-block;
-            background: #ffcc00;
-            color: #1c1c2e;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
+.image-gallery {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   gap: 1rem;
+   padding: 1rem;
+   max-width: 1600px;
+   margin: 0 auto;
+}
 
-        .cta-button:hover {
-            background: #f9a825;
-            transform: scale(1.1);
-        }
+.image-container {
+   position: relative;
+   cursor: pointer;
+   transition: all 0.3s ease;
+}
 
-        .features {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+.image-container img {
+   width: 100%;
+   aspect-ratio: 2/3;
+   object-fit: cover;
+   border-radius: 0.5rem;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+   transition: all 0.3s ease;
+}
 
-        .features h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #ffcc00;
-        }
+.expanded-row {
+   grid-column: 1 / -1;
+   display: none;
+   background: #2e2e46;
+   border-radius: 1rem;
+   padding: 2rem;
+   margin: 1rem 0;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
+.expanded-row.active {
+   display: grid;
+   grid-template-columns: 1fr 2fr;
+   gap: 2rem;
+}
 
-        .feature-card {
-            padding: 2rem;
-            background: #3e3e58;
-            border-radius: 10px;
-            border: 2px solid #ffcc00;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
+.description-panel {
+   background: #3e3e58;
+   padding: 2rem;
+   border-radius: 0.5rem;
+   height: fit-content;
+}
 
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #ffcc00;
-        }
+.expanded-image {
+   display: flex;
+   justify-content: center;
+   align-items: flex-start;
+}
 
-        footer {
-            background: #2e2e46;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
+.expanded-image img {
+   max-width: 100%;
+   height: auto;
+   max-height: 80vh;
+   border-radius: 0.5rem;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
 
-        @media (max-width: 1200px) {
-            .image-gallery {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
+.cta-button {
+   display: inline-block;
+   background: #ffcc00;
+   color: #1c1c2e;
+   padding: 0.75rem 1.5rem;
+   border-radius: 25px;
+   text-decoration: none;
+   font-weight: 600;
+   transition: all 0.3s ease-in-out;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
 
-        @media (max-width: 900px) {
-            .image-gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .expanded-row.active {
-                grid-template-columns: 1fr;
-            }
-            .expanded-image {
-                order: -1;
-            }
-        }
+.cta-button:hover {
+   background: #f9a825;
+   transform: scale(1.1);
+}
 
-        @media (max-width: 600px) {
-            .image-gallery {
-                grid-template-columns: 1fr;
-            }
-            .hero h1 {
-                font-size: 20px;
-            }
-            .expanded-row {
-                padding: 1rem;
-            }
-            .description-panel {
-                padding: 1rem;
-            }
-        }
+.features {
+   padding: 5rem 2rem;
+   max-width: 1200px;
+   margin: 0 auto;
+}
+
+.features h2 {
+   text-align: center;
+   font-size: 2.5rem;
+   margin-bottom: 3rem;
+   color: #ffcc00;
+}
+
+.features-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   gap: 2rem;
+}
+
+.feature-card {
+   padding: 2rem;
+   background: #3e3e58;
+   border-radius: 10px;
+   border: 2px solid #ffcc00;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card h3 {
+   font-size: 1.5rem;
+   margin-bottom: 1rem;
+   color: #ffcc00;
+}
+
+footer {
+   background: #2e2e46;
+   color: white;
+   padding: 2rem;
+   text-align: center;
+}
+
+@media (max-width: 1200px) {
+   .image-gallery {
+       grid-template-columns: repeat(3, 1fr);
+   }
+}
+
+@media (max-width: 900px) {
+   .media-container {
+       grid-template-columns: 1fr;
+   }
+   
+   .empty-video, .empty-image {
+       height: 500px;
+   }
+   
+   .empty-image {
+       width: 90%;
+       margin: 0 auto;
+   }
+   
+   .image-gallery {
+       grid-template-columns: repeat(2, 1fr);
+   }
+   
+   .expanded-row.active {
+       grid-template-columns: 1fr;
+   }
+   
+   .expanded-image {
+       order: -1;
+   }
+}
+
+@media (max-width: 600px) {
+   .image-gallery {
+       grid-template-columns: 1fr;
+   }
+   
+   .hero h1 {
+       font-size: 20px;
+   }
+   
+   .expanded-row {
+       padding: 1rem;
+   }
+   
+   .description-panel {
+       padding: 1rem;
+   }
+   
+   .empty-text {
+       width: 90%;
+   }
+   
+   .empty-image {
+       width: 100%;
+   }
+}
+
     </style>
 </head>
 <body>
@@ -233,35 +321,60 @@ if ($conn->connect_error) {
     </header>
 
     <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Welcome to Our Website</h1>
-            <p>Experience the future of web design with our modern and responsive website template.</p>
-            <a href="index2.php" class="cta-button">Get Started</a>
+    <div class="hero-content">
+    <h1></h1>
+    <p></p>
+    
+
+    <!-- Empty image holder
+    <div class="empty-image" style="display: none;">
+        <img src="v.png" alt="placeholder" style="width: 100%; height: 100%; object-fit: cover;">
+    </div> -->
+    
+   
+</div>
+
+<div class="left-content">
+    <div class="media-container">
+        <div class="empty-video" style="display: none;">
+            <iframe width="100%" height="600" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         
-        <div class="image-gallery">
-            <?php
-            $result = $conn->query("SELECT * FROM movies");
+        <div class="empty-image" style="display: none;">
+            <img src="v.png" alt="placeholder" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+    </div>
 
-            if($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    echo '<div class="image-container">';
-                    echo '<img src="' . $row["Movie_Poster"] . '" alt="movie poster" data-movie-id="' . $row["Movie_ID"] . '">';
-                    echo '</div>';
-                }
-            }
-            ?>
-            <div class="expanded-row">
-                <div class="description-panel">
-                    <h2>Movie Details</h2>
-                    <div id="movie-description">
-                        <!-- Movie details will be loaded here -->
-                    </div>
-                </div>
-                <div class="expanded-image">
-                    <!-- Expanded image will be loaded here -->
-                </div>
-            </div>
+    <div class="empty-text" style="display: none; font-size: 40px">
+        <h3>sssss</h3>
+        <p>sssssss</p>
+    </div>
+</div>
+    
+    
+    
+  
+        
+        <div class="image-gallery">
+
+
+            
+
+            <?php
+
+             
+
+              $sql = "SELECT * FROM movies";
+              $result = mysqli_query($conn, $sql);
+              
+              while($row = mysqli_fetch_assoc($result)) { ?>
+                <?php echo '<div class="image-container">'; ?>
+              <img src="<?php echo $row['Movie_Poster']; ?>" 
+                   onclick="showId(<?php echo $row['Movie_ID']; ?>)" 
+                   alt="<?php echo $row['Movie_Name']; ?>">
+                   <?php echo '</div>'; ?>
+          <?php } ?>
+            
         </div>
     </section>
 
@@ -288,60 +401,52 @@ if ($conn->connect_error) {
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+       
 
-            // start here
-            const expandedRow = document.querySelector('.expanded-row');
-            const expandedImage = document.querySelector('.expanded-image');
-            const movieDescription = document.getElementById('movie-description');
-            //
-            let currentlyExpanded = null;
 
-            document.querySelectorAll('.image-container img').forEach(img => {
-                img.addEventListener('click', function() {
-                    const container = this.closest('.image-container');
-                    
-                    if (currentlyExpanded === this) {
-                        expandedRow.classList.remove('active');
-                        currentlyExpanded = null;
-                        return;
-                    }
+        let selectedId;
 
-                    currentlyExpanded = this;
+       
+let currentlyExpanded = null;
+const expandedRow = document.querySelector('.expanded-row');
+const expandedImage = document.querySelector('.expanded-image');
+const movieDescription = document.getElementById('movie-description');
 
-                    const expandedImg = document.createElement('img');
-                    expandedImg.src = this.src;
-                    
-                    expandedImage.innerHTML = '';
-                    expandedImage.appendChild(expandedImg);
+function showId(id) {
+    selectedId = id;
+    
+    // Show the empty holders
+    document.querySelector('.empty-text').style.display = "block";
+    document.querySelector('.empty-image').style.display = "block";
+    document.querySelector('.empty-video').style.display = "block";
 
-                    const galleryItems = Array.from(document.querySelectorAll('.image-container'));
-                    const clickedIndex = galleryItems.indexOf(container);
-                    const rowSize = window.innerWidth > 1200 ? 4 : window.innerWidth > 900 ? 3 : window.innerWidth > 600 ? 2 : 1;
-                    const rowEnd = Math.ceil((clickedIndex + 1) / rowSize) * rowSize;
-                    const targetContainer = galleryItems[rowEnd - 1] || galleryItems[galleryItems.length - 1];
-                    
-                    targetContainer.parentNode.insertBefore(expandedRow, targetContainer.nextSibling);
-                    expandedRow.classList.add('active');
-
-                    expandedRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-                    const movieId = this.dataset.movieId;
-                    movieDescription.innerHTML = `
-                    <?php
-                    
-                       echo ' <h3>Movie Title</h3> ';
-                       echo ' <p>Release Date: </p> ';
-                       echo ' <p>Director: </p> ';
-                       echo ' <p>Description: </p> ';
-                    
-                    
-                    ?>
-                        
-                    `;
-                });
-            });
+    fetch(`get_movie_details.php?id=${id}`)
+        .then(response => response.json())
+        .then(data => {
+            // Update text and image
+            document.querySelector('.empty-text h3').textContent = data.Movie_Name;
+            document.querySelector('.empty-text p').textContent = data.Movie_Description;
+            document.querySelector('.empty-image img').src = data.Movie_Poster;
+            
+            // Convert YouTube URL to embed format
+            let videoId = data.Movie_Trailer.split('v=')[1];
+            // Handle if there are additional parameters
+            const ampersandPosition = videoId.indexOf('&');
+            if(ampersandPosition != -1) {
+                videoId = videoId.substring(0, ampersandPosition);
+            }
+            const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            document.querySelector('.empty-video iframe').src = embedUrl;
         });
+}
+
+function setId(id) {
+    selectedId = id;
+
+   
+
+
+}
     </script>
 </body>
 </html>
