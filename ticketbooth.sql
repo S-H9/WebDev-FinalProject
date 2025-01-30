@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2025 at 08:39 PM
+-- Generation Time: Jan 29, 2025 at 10:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `ticketbooth`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_form`
+--
+
+CREATE TABLE `contact_form` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contact_form`
+--
+
+INSERT INTO `contact_form` (`id`, `name`, `email`, `message`, `created_at`) VALUES
+(8, 'ashraf', 'zs5.5rn0@gmail.com', 'as', '2025-01-29 20:18:20');
 
 -- --------------------------------------------------------
 
@@ -56,9 +77,36 @@ INSERT INTO `movies` (`Movie_ID`, `Movie_Name`, `Movie_Description`, `Movie_Trai
 (14, 'Your Name', 'Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.', 'https://www.youtube.com/watch?v=NooIc3dMncc&ab_channel=ConvincingAnimeTrailers', 'https://m.media-amazon.com/images/M/MV5BMjI1ODZkYTgtYTY3Yy00ZTJkLWFkOTgtZDUyYWM4MzQwNjk0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg'),
 (15, 'Avengers: Infinity War', 'The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.', 'https://www.youtube.com/watch?v=TcMBFSGVi1c&ab_channel=MarvelEntertainment', 'https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_FMjpg_UX1000_.jpg');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `review` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `name`, `email`, `review`, `created_at`) VALUES
+(6, 'ashraf', 'ashrafz1@gmail.com', 'as', '2025-01-29 20:18:36');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `contact_form`
+--
+ALTER TABLE `contact_form`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `movies`
@@ -67,14 +115,32 @@ ALTER TABLE `movies`
   ADD PRIMARY KEY (`Movie_ID`);
 
 --
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `contact_form`
+--
+ALTER TABLE `contact_form`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `movies`
 --
 ALTER TABLE `movies`
   MODIFY `Movie_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
