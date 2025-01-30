@@ -1,8 +1,7 @@
 <?php
-// Start the session
 session_start();
 
-// Database connection
+// Database connection details
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -18,20 +17,15 @@ if ($conn->connect_error) {
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize form input
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $review = mysqli_real_escape_string($conn, $_POST['review']);
 
-    // Insert review into the database
     $sql = "INSERT INTO reviews (name, email, review) VALUES ('$name', '$email', '$review')";
 
     if (mysqli_query($conn, $sql)) {
-        // Set session variable for success message
         $_SESSION['review_submitted'] = true;
-
-        // Optionally, redirect back to the homepage or a confirmation page
-        header('Location: index.php'); // Redirect to refresh the page
+        header('Location: index.php');
         exit();
     } else {
         echo "Error: " . mysqli_error($conn);
@@ -44,13 +38,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Website</title>
-    <link rel="stylesheet" href="style.css"> <!-- Linking the external CSS file -->
+    <title>ShowPick</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .floating-image {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .image-container {
+            display: inline-block;
+            margin: 10px;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+        #IMDB {
+            width: 50px;
+  height: 50px;
+  background-color: red;
+  position: relative;
+  animation-name: example;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+        }
+        @keyframes example {
+  0%   {background-color:red; left:0px; top:0px;}
+  25%  {background-color:yellow; left:200px; top:0px;}
+  50%  {background-color:blue; left:0px; top:0px;}
+ 
+}
+    </style>
 </head>
 <body>
     <header>
+        <h1>Welcome to ShowPick</h1>
         <nav>
            <img src="ShowPick icon.png" alt="0"></a>
+           <a href="https://www.imdb.com/" class="cta-button" target="_blank" id="IMDB"
+             style="margin-left: auto; text-decoration: none; font-weight: normal; color: white; background-color: blue; ">IMDB</a>
            <a href="contact.php" class="cta-button" style="margin-left: auto; text-decoration: none; font-weight: normal;">Contact Us</a>
         </nav>
     </header>
@@ -82,9 +123,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sql = "SELECT * FROM movies";
                 $result = mysqli_query($conn, $sql);
 
-                while($row = mysqli_fetch_assoc($result)) { ?>
+                if (!$result) {
+                    die("Database query failed: " . mysqli_error($conn));
+                }
+
+                $count = 0;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $class = ($count > -1) ? 'floating-image' : ''; // Apply the class to the first image
+                    $count++;
+            ?>
                     <div class="image-container">
-                        <img src="<?php echo $row['Movie_Poster']; ?>" onclick="showId(<?php echo $row['Movie_ID']; ?>)" alt="<?php echo $row['Movie_Name']; ?>">
+                        <img src="<?php echo $row['Movie_Poster']; ?>" onclick="showId(<?php echo $row['Movie_ID']; ?>)" alt="<?php echo $row['Movie_Name']; ?>" class="<?php echo $class; ?>">
                     </div>
                 <?php } ?>
         </div>
@@ -94,13 +143,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="review-form">
             <h3>Leave a Review</h3>
 
-            <!-- Show success message if review is successfully submitted -->
             <?php if (isset($_SESSION['review_submitted']) && $_SESSION['review_submitted'] == true): ?>
                 <div class="success-message" style="color: green; font-weight: bold;">
                     Review has been submitted successfully!
                 </div>
                 <?php
-                // Clear the session variable after showing the success message
                 unset($_SESSION['review_submitted']);
                 ?>
             <?php endif; ?>
@@ -136,7 +183,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             selectedId = id;
 
-            // Show the empty holders
             document.querySelector('.empty-text').style.display = "block";
             document.querySelector('.empty-image').style.display = "block";
             document.querySelector('.empty-video').style.display = "block";
@@ -144,14 +190,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             fetch(`get_movie_details.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
-                    // Update text and image
+
                     document.querySelector('.empty-text h3').textContent = data.Movie_Name;
                     document.querySelector('.empty-text p').textContent = data.Movie_Description;
                     document.querySelector('.empty-image img').src = data.Movie_Poster;
 
-                    // Convert YouTube URL to embed format
                     let videoId = data.Movie_Trailer.split('v=')[1];
-                    // Handle if there are additional parameters
+
                     const ampersandPosition = videoId.indexOf('&');
                     if(ampersandPosition != -1) {
                         videoId = videoId.substring(0, ampersandPosition);

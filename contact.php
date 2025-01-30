@@ -1,54 +1,40 @@
 <?php
-// Start the session
 session_start();
 
-// Database connection parameters
-$host = 'localhost';  // Change this to your database host (usually localhost)
-$username = 'root';   // Change this to your database username
-$password = '';       // Change this to your database password
-$dbname = 'ticketbooth';  // The name of the database you created
+$host = 'localhost';  
+$username = 'root';  
+$password = '';      
+$dbname = 'ticketbooth';  
 
-// Create a connection to the database
 $conn = new mysqli($host, $username, $password, $dbname);
 
-// Check if connection was successful
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get the form data and sanitize it
     $name = htmlspecialchars($_POST['name']);
     $email = htmlspecialchars($_POST['email']);
     $message = htmlspecialchars($_POST['message']);
 
-    // Prepare the SQL query to insert the data into the database
     $sql = "INSERT INTO contact_form (name, email, message) VALUES (?, ?, ?)";
 
-    // Prepare statement
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die('Error preparing statement: ' . $conn->error);
     }
 
-    // Bind the parameters
     $stmt->bind_param('sss', $name, $email, $message);
 
-    // Execute the query
     if ($stmt->execute()) {
-        // Set a session variable to indicate success
         $_SESSION['success_message'] = "Message sent successfully!";
     } else {
-        // Optionally handle error
         $_SESSION['error_message'] = "Error: " . $stmt->error;
     }
 
-    // Close the statement and connection
     $stmt->close();
     $conn->close();
 
-    // Redirect to the same page to avoid resubmission
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
@@ -66,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #1c1c2e, #3e3e58);
-            color: #f4f4f4;
+            color:rgb(248, 248, 243);
             line-height: 1.6;
         }
 
@@ -182,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             justify-content: space-between;
             gap: 2rem;
-            flex-wrap: wrap; /* Ensures responsiveness */
+            flex-wrap: wrap; 
         }
 
         .card {
@@ -207,10 +193,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             padding-left: 1rem;
         }
 
-        /* Full width for table */
+        
         table {
             width: 100%;
-            margin-top: 2rem; /* Added space from the cards */
+            margin-top: 2rem; 
             border-collapse: collapse;
             text-align: left;
             background-color: #3e3e58;
@@ -237,6 +223,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <header>
         <nav>
             <img src="ShowPick icon.png" alt="Logo">
+
+
             <a href="index.php" class="cta-button" style="margin-left: auto; text-decoration: none; font-weight: normal;">Home</a>
         </nav>
     </header>
@@ -246,15 +234,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="contact-form">
             <h2>Get in Touch</h2>
             <?php
-            // Display success message if it exists
             if (isset($_SESSION['success_message'])) {
                 echo '<div class="success-message">' . $_SESSION['success_message'] . '</div>';
-                unset($_SESSION['success_message']); // Clear the message after displaying
+                unset($_SESSION['success_message']); 
             }
-            // Optionally display an error message
+            
             if (isset($_SESSION['error_message'])) {
                 echo '<div class="error-message">' . $_SESSION['error_message'] . '</div>';
-                unset($_SESSION['error_message']); // Clear the message after displaying
+                unset($_SESSION['error_message']); 
             }
             ?>
             <form action="contact.php" method="POST">
